@@ -1,8 +1,9 @@
 import { useLanguage } from "../../hooks/useLanguage";
 import { useTheme } from "../../hooks/useTheme";
 import { LanguageSelector } from "../LanguageSelector";
+import type { FC } from "react";
 
-export function Header() {
+export const Header: FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { t } = useLanguage();
 
@@ -24,4 +25,4 @@ export function Header() {
       </div>
     </div>
   );
-}
+};

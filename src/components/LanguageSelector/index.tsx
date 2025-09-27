@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type FC } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 
-export function LanguageSelector() {
+export const LanguageSelector: FC = () => {
   const {
     currentLanguage,
     currentLanguageInfo,
@@ -120,4 +120,4 @@ export function LanguageSelector() {
       `}</style>
     </div>
   );
-}
+};

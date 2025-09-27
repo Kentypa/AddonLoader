@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import { useSteamWorkshop } from "../../hooks/useSteamWorkshop";
 import type { AddonOrder } from "../../types/addonOrder";
 
@@ -12,7 +12,7 @@ interface AddonCardProps {
   t: (key: string) => string;
 }
 
-export const AddonCard: React.FC<AddonCardProps> = ({
+export const AddonCard: FC<AddonCardProps> = ({
   addonItem,
   index,
   totalCount,

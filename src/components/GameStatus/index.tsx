@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 
 interface GameStatusProps {
   l4d2Running: boolean;
@@ -7,7 +7,7 @@ interface GameStatusProps {
   t: (key: string) => string;
 }
 
-export const GameStatus: React.FC<GameStatusProps> = ({
+export const GameStatus: FC<GameStatusProps> = ({
   l4d2Running,
   selectedCount,
   toggleGameRunning,

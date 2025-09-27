@@ -1,6 +1,6 @@
-import React from "react";
 import { AddonCard } from "../AddonCard";
 import type { AddonOrder } from "../../types/addonOrder";
+import type { FC } from "react";
 
 interface AddonsListProps {
   loading: boolean;
@@ -11,7 +11,7 @@ interface AddonsListProps {
   t: (key: string) => string;
 }
 
-export const AddonsList: React.FC<AddonsListProps> = ({
+export const AddonsList: FC<AddonsListProps> = ({
   loading,
   addonOrder,
   addonImages,

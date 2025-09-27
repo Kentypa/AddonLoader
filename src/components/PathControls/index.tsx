@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 
 interface PathControlsProps {
   gamePath: string;
@@ -8,7 +8,7 @@ interface PathControlsProps {
   t: (key: string) => string;
 }
 
-export const PathControls: React.FC<PathControlsProps> = ({
+export const PathControls: FC<PathControlsProps> = ({
   gamePath,
   chooseDir,
   clearPath,
