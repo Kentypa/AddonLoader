@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Addon Loader",
+  "gameStatus": "Game Status",
+  "running": "Running",
+  "notRunning": "Not Running",
+  "selectedAddons": "Selected Addons",
+  "setRunning": "Set Running",
+  "setNotRunning": "Set Not Running",
+  "selectGameFolder": "Select Game Folder",
+  "currentPath": "Current Path",
+  "changeFolder": "Change Folder",
+  "clear": "Clear",
+  "refreshAddons": "Refresh Addons",
+  "detectedAddons": "Detected Addons",
+  "loadingAddons": "Loading addons...",
+  "noAddonsFound": "No addons found. Please check your game folder.",
+  "activeAs": "Active as",
+  "priority": "Priority",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "lightTheme": "Light",
+  "darkTheme": "Dark"
+}

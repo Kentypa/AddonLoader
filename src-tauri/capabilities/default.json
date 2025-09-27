@@ -16,7 +16,7 @@
     "fs:read-dirs",
     {
       "identifier": "fs:scope",
-      "allow": ["**/*"]
+      "allow": ["/home/*/.steam/**", "/home/*/.local/share/Steam/**", "**/*"]
     },
     {
       "identifier": "shell:allow-execute",
@@ -51,7 +51,6 @@
       "identifier": "shell:allow-execute",
       "allow": [{ "name": "tasklist", "cmd": "tasklist" }]
     },
-
     "shell:default"
   ]
 }

@@ -9,6 +9,10 @@ import {
   writeTextFile,
 } from "@tauri-apps/plugin-fs";
 import { convertFileSrc } from "@tauri-apps/api/core";
+import { useTheme } from "./hooks/useTheme";
+import "./i18n";
+import { useLanguage } from "./hooks/useLanguage";
+import { LanguageSelector } from "./components/LanguageSelector";
 
 function convertLfToCrlf(text: string) {
   return text.replace(/(?<!\r)\n/g, "\r\n");
@@ -31,6 +35,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [l4d2Running, setL4d2Running] = useState(false);
+  const { t } = useLanguage();
 
   const addonOrderRef = useRef(addonOrder);
   addonOrderRef.current = addonOrder;
@@ -373,115 +378,135 @@ export default function App() {
 
   const selectedCount = addonOrder.filter((item) => item.enabled).length;
 
-  return (
-    <main className="p-6 max-w-4xl mx-auto font-sans bg-gray-900 text-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-green-400">
-        L4D2 Addon Loader
-      </h1>
+  const { theme, toggleTheme } = useTheme();
 
-      <div className="mb-4">
+  return (
+    <main className="p-6 mx-auto font-sans bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-indigo-600 dark:text-green-400">
+          {t("title")}
+        </h1>
+
+        <div className="flex items-center gap-3">
+          <LanguageSelector />
+
+          <button
+            onClick={toggleTheme}
+            className="px-3 py-1 rounded-xl shadow bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >
+            {theme === "dark"
+              ? `🌞 ${t("lightTheme")}`
+              : `🌙 ${t("darkTheme")}`}
+          </button>
+        </div>
+      </div>
+
+      <div className="mb-6 bg-white dark:bg-gray-800 shadow rounded-2xl p-4 transition">
         <p className="mb-1">
-          <strong>Game Status:</strong>{" "}
+          <strong>{t("gameStatus")}:</strong>{" "}
           <span
             className={
               l4d2Running
-                ? "text-green-400 font-bold"
-                : "text-red-500 font-bold"
+                ? "text-green-600 dark:text-green-400 font-bold"
+                : "text-red-600 dark:text-red-500 font-bold"
             }
           >
-            {l4d2Running ? "Running" : "Not Running"}
+            {l4d2Running ? t("running") : t("notRunning")}
           </span>
         </p>
-        <p className="text-sm text-gray-400">
-          <strong>Selected Addons:</strong> {selectedCount}
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          <strong>{t("selectedAddons")}:</strong> {selectedCount}
         </p>
         <button
           onClick={toggleGameRunning}
-          className="mt-2 px-4 py-2 bg-indigo-700 text-white rounded hover:bg-indigo-600 transition"
+          className="mt-3 px-5 py-2 rounded-xl shadow bg-indigo-600 text-white font-medium hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-600 transition"
         >
-          {l4d2Running ? "Set Not Running" : "Set Running"}
+          {l4d2Running ? t("setNotRunning") : t("setRunning")}
         </button>
       </div>
 
       {error && (
-        <div className="p-3 bg-red-800 text-red-300 rounded mb-4">{error}</div>
+        <div className="p-3 bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-300 rounded-xl mb-4 shadow">
+          {error}
+        </div>
       )}
 
       {!gamePath ? (
         <button
           onClick={chooseDir}
-          className="px-5 py-2 bg-blue-700 text-white rounded hover:bg-blue-600 transition"
+          className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl shadow hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 transition"
         >
-          Select Game Folder
+          {t("selectGameFolder")}
         </button>
       ) : (
         <>
-          <p className="mb-3 text-gray-300">
-            <strong>Current Path:</strong> {gamePath}
+          <p className="mb-3 text-gray-700 dark:text-gray-300">
+            <strong>{t("currentPath")}:</strong> {gamePath}
           </p>
-          <div className="flex gap-3 mb-5">
+
+          <div className="flex flex-wrap gap-3 mb-6">
             <button
               onClick={chooseDir}
-              className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-600 transition"
+              className="px-4 py-2 rounded-xl shadow bg-green-600 text-white hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-600 transition"
             >
-              Change Folder
+              {t("changeFolder")}
             </button>
             <button
               onClick={clearPath}
-              className="px-4 py-2 bg-red-700 text-white rounded hover:bg-red-600 transition"
+              className="px-4 py-2 rounded-xl shadow bg-red-600 text-white hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 transition"
             >
-              Clear
+              {t("clear")}
             </button>
             <button
               onClick={recreateActiveAddons}
-              className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition"
-              title="Recreate all active addon directories"
+              className="px-4 py-2 rounded-xl shadow bg-purple-600 text-white hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 transition"
             >
-              Refresh Addons
+              {t("refreshAddons")}
             </button>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-4 text-green-300">
-            Detected Addons:
+          <h2 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-green-300">
+            {t("detectedAddons")}:
           </h2>
 
           {loading ? (
-            <div className="flex items-center gap-2 text-gray-400">
-              <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
-              <span>Loading addons...</span>
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span>{t("loadingAddons")}</span>
             </div>
           ) : addonOrder.length > 0 ? (
-            <div className="flex flex-col gap-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {addonOrder.map((addonItem, index) => {
                 const vpkName = addonItem.name;
                 const imageUrl = addonImages[vpkName];
                 const isSelected = addonItem.enabled;
+
                 return (
                   <div
                     key={vpkName}
-                    className={`flex items-center gap-3 p-3 border rounded transition ${
+                    className={`flex items-center gap-3 p-4 rounded-2xl shadow transition border ${
                       isSelected
-                        ? "border-green-500 bg-gray-800"
-                        : "border-gray-700 hover:border-gray-500"
+                        ? "border-green-500 bg-green-50 dark:bg-gray-800"
+                        : "border-gray-300 dark:border-gray-700 hover:border-indigo-400"
                     }`}
                   >
                     <div className="flex flex-col gap-1">
                       <button
                         onClick={() => moveAddon(vpkName, "up")}
                         disabled={index === 0}
-                        className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
-                        title="Move up"
+                        className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                        title={t("moveUp")}
                       >
                         ↑
                       </button>
-                      <span className="text-xs text-gray-500 text-center">
+                      <span className="text-xs text-gray-500 dark:text-gray-400 text-center">
                         {index + 1}
                       </span>
                       <button
                         onClick={() => moveAddon(vpkName, "down")}
                         disabled={index === addonOrder.length - 1}
-                        className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
-                        title="Move down"
+                        className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                        title={t("moveDown")}
                       >
                         ↓
                       </button>
@@ -491,22 +516,22 @@ export default function App() {
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => toggleAddon(vpkName)}
-                      className="w-5 h-5"
+                      className="w-5 h-5 accent-indigo-600 dark:accent-green-500"
                     />
 
                     {imageUrl ? (
                       <img
                         src={imageUrl}
                         alt={vpkName}
-                        className="w-16 h-16 object-cover rounded flex-shrink-0"
+                        className="w-16 h-16 object-cover rounded-xl flex-shrink-0 shadow"
                         onError={(e) => {
                           e.currentTarget.style.display = "none";
                         }}
                       />
                     ) : (
-                      <div className="w-16 h-16 bg-gray-700 rounded flex-shrink-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-xl flex-shrink-0 flex items-center justify-center">
                         <svg
-                          className="w-6 h-6 text-gray-400"
+                          className="w-6 h-6 text-gray-500 dark:text-gray-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -521,15 +546,15 @@ export default function App() {
                       </div>
                     )}
 
-                    <div className="flex-1 text-gray-200">
-                      <span className="break-all font-medium">
+                    <div className="flex-1">
+                      <span className="break-all font-medium text-gray-800 dark:text-gray-200">
                         {vpkName.replace(".vpk", "")}
                       </span>
                       {isSelected && (
-                        <div className="text-xs text-green-400">
-                          ✓ Active as{" "}
+                        <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                          ✓ {t("activeAs")}{" "}
                           <span className="font-mono">{addonItem.addonId}</span>{" "}
-                          (Priority: {index + 1})
+                          ({t("priority")}: {index + 1})
                         </div>
                       )}
                     </div>
@@ -538,8 +563,8 @@ export default function App() {
               })}
             </div>
           ) : (
-            <p className="text-gray-400">
-              No addons found. Please check your game folder.
+            <p className="text-gray-600 dark:text-gray-400">
+              {t("noAddonsFound")}
             </p>
           )}
         </>

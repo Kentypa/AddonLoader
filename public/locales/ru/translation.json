@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Загрузчик модов",
+  "gameStatus": "Статус игры",
+  "running": "Запущена",
+  "notRunning": "Не запущена",
+  "selectedAddons": "Выбрано модов",
+  "setRunning": "Запустить",
+  "setNotRunning": "Остановить",
+  "selectGameFolder": "Выбрать папку игры",
+  "currentPath": "Текущий путь",
+  "changeFolder": "Изменить папку",
+  "clear": "Очистить",
+  "refreshAddons": "Обновить моды",
+  "detectedAddons": "Обнаруженные моды",
+  "loadingAddons": "Загрузка модов...",
+  "noAddonsFound": "Моды не найдены. Проверьте папку игры.",
+  "activeAs": "Активен как",
+  "priority": "Приоритет",
+  "moveUp": "Вверх",
+  "moveDown": "Вниз",
+  "lightTheme": "Светлая",
+  "darkTheme": "Темная"
+}

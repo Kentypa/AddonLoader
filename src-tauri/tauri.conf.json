@@ -21,17 +21,25 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost",
-      "devCsp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost",
+      "csp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost",
+      "devCsp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost",
       "assetProtocol": {
         "enable": true,
-        "scope": ["**/*"]
+        "scope": {
+          "allow": [
+            "**/*",
+            "/home/*/.steam/steam/steamapps/common/Left 4 Dead 2/**",
+            "/home/*/.local/share/Steam/steamapps/common/Left 4 Dead 2/**",
+            "/home/**"
+          ],
+          "deny": []
+        }
       }
     }
   },
   "bundle": {
     "active": true,
-    "targets": "msi",
+    "targets": "all",
     "publisher": "KentInCorporation",
     "icon": [
       "icons/32x32.png",
@@ -39,6 +47,11 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "linux": {
+      "deb": {
+        "depends": ["libc6", "libgcc-s1"]
+      }
+    }
   }
 }

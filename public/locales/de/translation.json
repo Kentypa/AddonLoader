@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Mod-Loader",
+  "gameStatus": "Spielstatus",
+  "running": "Läuft",
+  "notRunning": "Läuft nicht",
+  "selectedAddons": "Ausgewählte Mods",
+  "setRunning": "Als laufend setzen",
+  "setNotRunning": "Als gestoppt setzen",
+  "selectGameFolder": "Spielordner auswählen",
+  "currentPath": "Aktueller Pfad",
+  "changeFolder": "Ordner ändern",
+  "clear": "Löschen",
+  "refreshAddons": "Mods aktualisieren",
+  "detectedAddons": "Erkannte Mods",
+  "loadingAddons": "Lade Mods...",
+  "noAddonsFound": "Keine Mods gefunden. Bitte Spielordner überprüfen.",
+  "activeAs": "Aktiv als",
+  "priority": "Priorität",
+  "moveUp": "Nach oben",
+  "moveDown": "Nach unten",
+  "lightTheme": "Hell",
+  "darkTheme": "Dunkel"
+}

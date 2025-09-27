@@ -1,0 +1,23 @@
+{
+  "title": "Cargador de Mods L4D2",
+  "gameStatus": "Estado del Juego",
+  "running": "Ejecutándose",
+  "notRunning": "No Ejecutándose",
+  "selectedAddons": "Mods Seleccionados",
+  "setRunning": "Establecer en Ejecución",
+  "setNotRunning": "Establecer en Detenido",
+  "selectGameFolder": "Seleccionar Carpeta del Juego",
+  "currentPath": "Ruta Actual",
+  "changeFolder": "Cambiar Carpeta",
+  "clear": "Limpiar",
+  "refreshAddons": "Actualizar Mods",
+  "detectedAddons": "Mods Detectados",
+  "loadingAddons": "Cargando mods...",
+  "noAddonsFound": "No se encontraron mods. Verifique la carpeta del juego.",
+  "activeAs": "Activo como",
+  "priority": "Prioridad",
+  "moveUp": "Mover arriba",
+  "moveDown": "Mover abajo",
+  "lightTheme": "Claro",
+  "darkTheme": "Oscuro"
+}
