@@ -8,4 +8,14 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
+  server: {
+    proxy: {
+      "/steamapi": {
+        target: "https://api.steampowered.com",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/steamapi/, ""),
+      },
+    },
+  },
 });

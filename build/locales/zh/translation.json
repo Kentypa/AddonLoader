@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 模组加载器",
+  "gameStatus": "游戏状态",
+  "running": "运行中",
+  "notRunning": "未运行",
+  "selectedAddons": "已选模组",
+  "setRunning": "设为运行",
+  "setNotRunning": "设为停止",
+  "selectGameFolder": "选择游戏文件夹",
+  "currentPath": "当前路径",
+  "changeFolder": "更改文件夹",
+  "clear": "清除",
+  "refreshAddons": "刷新模组",
+  "detectedAddons": "检测到的模组",
+  "loadingAddons": "加载模组中...",
+  "noAddonsFound": "未找到模组。请检查游戏文件夹。",
+  "activeAs": "激活为",
+  "priority": "优先级",
+  "moveUp": "上移",
+  "moveDown": "下移",
+  "lightTheme": "浅色",
+  "darkTheme": "深色"
+}

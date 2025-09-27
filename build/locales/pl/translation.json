@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Ładowarka Modów",
+  "gameStatus": "Status Gry",
+  "running": "Uruchomiona",
+  "notRunning": "Nieuruchomiona",
+  "selectedAddons": "Wybrane Mody",
+  "setRunning": "Ustaw jako Uruchomiona",
+  "setNotRunning": "Ustaw jako Zatrzymana",
+  "selectGameFolder": "Wybierz Folder Gry",
+  "currentPath": "Bieżąca Ścieżka",
+  "changeFolder": "Zmień Folder",
+  "clear": "Wyczyść",
+  "refreshAddons": "Odśwież Mody",
+  "detectedAddons": "Wykryte Mody",
+  "loadingAddons": "Ładowanie modów...",
+  "noAddonsFound": "Nie znaleziono modów. Sprawdź folder gry.",
+  "activeAs": "Aktywny jako",
+  "priority": "Priorytet",
+  "moveUp": "Przesuń w górę",
+  "moveDown": "Przesuń w dół",
+  "lightTheme": "Jasny",
+  "darkTheme": "Ciemny"
+}

@@ -40,17 +40,41 @@
       ]
     },
     {
-      "identifier": "shell:allow-execute",
-      "allow": [{ "name": "cmd", "cmd": "cmd" }]
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/*"
+        }
+      ]
     },
     {
       "identifier": "shell:allow-execute",
-      "allow": [{ "name": "powershell", "cmd": "powershell" }]
+      "allow": [
+        {
+          "name": "cmd",
+          "cmd": "cmd"
+        }
+      ]
     },
     {
       "identifier": "shell:allow-execute",
-      "allow": [{ "name": "tasklist", "cmd": "tasklist" }]
+      "allow": [
+        {
+          "name": "powershell",
+          "cmd": "powershell"
+        }
+      ]
     },
-    "shell:default"
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "tasklist",
+          "cmd": "tasklist"
+        }
+      ]
+    },
+    "shell:default",
+    "http:default"
   ]
 }

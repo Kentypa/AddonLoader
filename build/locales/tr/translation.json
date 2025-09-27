@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Mod Yükleyici",
+  "gameStatus": "Oyun Durumu",
+  "running": "Çalışıyor",
+  "notRunning": "Çalışmıyor",
+  "selectedAddons": "Seçilen Modlar",
+  "setRunning": "Çalışır Duruma Getir",
+  "setNotRunning": "Durdurulmuş Duruma Getir",
+  "selectGameFolder": "Oyun Klasörü Seç",
+  "currentPath": "Mevcut Yol",
+  "changeFolder": "Klasörü Değiştir",
+  "clear": "Temizle",
+  "refreshAddons": "Modları Yenile",
+  "detectedAddons": "Tespit Edilen Modlar",
+  "loadingAddons": "Modlar yükleniyor...",
+  "noAddonsFound": "Mod bulunamadı. Lütfen oyun klasörünü kontrol edin.",
+  "activeAs": "Aktif olarak",
+  "priority": "Öncelik",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı",
+  "lightTheme": "Açık",
+  "darkTheme": "Koyu"
+}

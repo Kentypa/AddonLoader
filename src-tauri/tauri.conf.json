@@ -1,7 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "addonloader",
-  "plugins": {},
   "version": "0.1.0",
   "identifier": "com.kentcompany.addonloader",
   "build": {
@@ -21,8 +20,8 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost",
-      "devCsp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost",
+      "csp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost; default-src 'self'; connect-src 'self' https://api.steampowered.com ipc:;",
+      "devCsp": "default-src 'self' ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; connect-src ipc: http://ipc.localhost; default-src 'self'; connect-src 'self' https://api.steampowered.com ipc:;",
       "assetProtocol": {
         "enable": true,
         "scope": {

@@ -1,0 +1,23 @@
+{
+  "title": "L4D2 Завантажувач модів",
+  "gameStatus": "Статус гри",
+  "running": "Запущена",
+  "notRunning": "Не запущена",
+  "selectedAddons": "Вибрано модів",
+  "setRunning": "Запустити",
+  "setNotRunning": "Зупинити",
+  "selectGameFolder": "Вибрати папку гри",
+  "currentPath": "Поточний шлях",
+  "changeFolder": "Змінити папку",
+  "clear": "Очистити",
+  "refreshAddons": "Оновити моди",
+  "detectedAddons": "Виявлені моди",
+  "loadingAddons": "Завантаження модів...",
+  "noAddonsFound": "Моди не знайдено. Перевірте папку гри.",
+  "activeAs": "Активний як",
+  "priority": "Пріоритет",
+  "moveUp": "Вгору",
+  "moveDown": "Вниз",
+  "lightTheme": "Світла",
+  "darkTheme": "Темна"
+}
