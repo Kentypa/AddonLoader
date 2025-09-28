@@ -22,36 +22,28 @@ export const AddonCard: FC<AddonCardProps> = ({
   t,
 }) => {
   const { name: vpkName, enabled: isSelected } = addonItem;
-  const { extractWorkshopId, loadModTitles, getModDescription, getModDetails } =
-    useSteamWorkshop();
+  const {
+    extractWorkshopId,
+    loadModInfo,
+    getModTitle,
+    getModDescription,
+    getModInfo,
+    isModLoading,
+  } = useSteamWorkshop();
 
   const workshopId = extractWorkshopId(vpkName);
-  const [modTitle, setModTitle] = useState<string>(
-    workshopId ? vpkName.replace(".vpk", "") : vpkName.replace(".vpk", "")
-  );
   const [showDescription, setShowDescription] = useState(false);
-  const [loadingDescription, setLoadingDescription] = useState(false);
+
+  const modTitle = getModTitle(vpkName);
+  const modDescription = getModDescription(vpkName);
+  const modInfo = getModInfo(vpkName);
+  const loadingDescription = isModLoading(vpkName);
 
   useEffect(() => {
-    if (!workshopId) return;
-
-    let cancelled = false;
-
-    async function fetchTitle() {
-      const titles = await loadModTitles([vpkName]);
-      if (!cancelled && workshopId && titles[workshopId]) {
-        setModTitle(titles[workshopId]);
-      }
+    if (workshopId && !modInfo && !loadingDescription) {
+      loadModInfo(vpkName);
     }
-
-    fetchTitle();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [vpkName, workshopId, loadModTitles]);
-
-  const modDescription = workshopId ? getModDescription(vpkName) : null;
+  }, [workshopId, modInfo, loadingDescription, loadModInfo, vpkName]);
 
   const handleShowDescription = async () => {
     if (
@@ -60,12 +52,7 @@ export const AddonCard: FC<AddonCardProps> = ({
       !modDescription &&
       !loadingDescription
     ) {
-      setLoadingDescription(true);
-      try {
-        await getModDetails(workshopId);
-      } finally {
-        setLoadingDescription(false);
-      }
+      await loadModInfo(vpkName);
     }
     setShowDescription(!showDescription);
   };
@@ -136,9 +123,14 @@ export const AddonCard: FC<AddonCardProps> = ({
         )}
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-gray-800 dark:text-gray-200 truncate">
-            {modTitle}
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-medium text-gray-800 dark:text-gray-200 truncate">
+              {modTitle}
+            </h3>
+            {loadingDescription && (
+              <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+            )}
+          </div>
           {workshopId && (
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Workshop ID: {workshopId}
@@ -160,25 +152,21 @@ export const AddonCard: FC<AddonCardProps> = ({
             title={showDescription ? "Hide description" : "Show description"}
             disabled={loadingDescription}
           >
-            {loadingDescription ? (
-              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <svg
-                className={`w-4 h-4 transition-transform ${
-                  showDescription ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            )}
+            <svg
+              className={`w-4 h-4 transition-transform ${
+                showDescription ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </button>
         )}
       </div>
@@ -195,11 +183,13 @@ export const AddonCard: FC<AddonCardProps> = ({
                 }}
               />
             </div>
+          ) : loadingDescription ? (
+            <p className="text-sm text-gray-500 dark:text-gray-500 italic">
+              Loading description...
+            </p>
           ) : (
             <p className="text-sm text-gray-500 dark:text-gray-500 italic">
-              {loadingDescription
-                ? "Loading description..."
-                : "Description not available"}
+              Description not available
             </p>
           )}
         </div>

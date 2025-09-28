@@ -51,20 +51,20 @@ export class SteamWorkshopService {
 
   async getModTitlesBatch(
     filenames: string[]
-  ): Promise<Record<string, string>> {
+  ): Promise<Record<string, CachedModInfo>> {
     const workshopIds = this.extractWorkshopIds(filenames);
 
     if (workshopIds.length === 0) {
       return {};
     }
 
-    const results: Record<string, string> = {};
+    const results: Record<string, CachedModInfo> = {};
     const cache = this.getCache();
     let cacheUpdated = false;
 
     for (const workshopId of workshopIds) {
       if (cache[workshopId] && this.isCacheValid(cache[workshopId])) {
-        results[workshopId] = cache[workshopId].title;
+        results[workshopId] = cache[workshopId];
       }
     }
 
@@ -75,22 +75,30 @@ export class SteamWorkshopService {
     if (idsToFetch.length > 0) {
       for (const idGroup of this.chunkArray(idsToFetch, MAX_IDS_PER_REQUEST)) {
         try {
-          const batchResults = await this.fetchModTitlesFromSteam(idGroup);
+          const batchResults = await this.fetchModDetailsFromSteam(idGroup);
 
-          for (const [workshopId, title] of Object.entries(batchResults)) {
-            cache[workshopId] = {
-              title,
+          for (const detail of batchResults) {
+            const info: CachedModInfo = {
+              workshopId: detail.publishedfileid,
+              title: detail.title || detail.publishedfileid,
+              description: detail.description || "",
               lastUpdated: Date.now(),
-              workshopId,
             };
-            results[workshopId] = title;
+            cache[detail.publishedfileid] = info;
+            results[detail.publishedfileid] = info;
             cacheUpdated = true;
           }
         } catch (error) {
-          console.error("Failed to fetch batch titles:", error);
+          console.error("Failed to fetch batch details:", error);
           for (const workshopId of idGroup) {
             if (!results[workshopId]) {
-              results[workshopId] = workshopId;
+              const fallbackInfo: CachedModInfo = {
+                workshopId,
+                title: workshopId,
+                description: "",
+                lastUpdated: Date.now(),
+              };
+              results[workshopId] = fallbackInfo;
             }
           }
         }
@@ -104,9 +112,9 @@ export class SteamWorkshopService {
     return results;
   }
 
-  private async fetchModTitlesFromSteam(
+  private async fetchModDetailsFromSteam(
     workshopIds: string[]
-  ): Promise<Record<string, string>> {
+  ): Promise<Publishedfiledetail[]> {
     const formData = new FormData();
     formData.append("itemcount", workshopIds.length.toString());
 
@@ -132,15 +140,9 @@ export class SteamWorkshopService {
       throw new Error("Invalid response from Steam API");
     }
 
-    const results: Record<string, string> = {};
-
-    for (const item of data.response.publishedfiledetails) {
-      if (item.result === 1 && item.title) {
-        results[item.publishedfileid] = item.title;
-      }
-    }
-
-    return results;
+    return data.response.publishedfiledetails.filter(
+      (item) => item.result === 1
+    );
   }
 
   private chunkArray<T>(array: T[], chunkSize: number): T[][] {
@@ -151,12 +153,42 @@ export class SteamWorkshopService {
     return chunks;
   }
 
-  async getModTitle(filename: string): Promise<string> {
-    const titles = await this.getModTitlesBatch([filename]);
-    return titles[filename];
+  async getModTitles(filenames: string[]): Promise<Record<string, string>> {
+    const modInfos = await this.getModTitlesBatch(filenames);
+    const titles: Record<string, string> = {};
+
+    for (const [workshopId, info] of Object.entries(modInfos)) {
+      titles[workshopId] = info.title;
+    }
+
+    return titles;
   }
 
-  async refreshModTitles(filenames: string[]): Promise<Record<string, string>> {
+  async getModTitle(filename: string): Promise<string> {
+    const workshopId = this.extractWorkshopId(filename);
+    if (!workshopId) return filename;
+
+    const modInfos = await this.getModTitlesBatch([filename]);
+    return modInfos[workshopId]?.title || workshopId;
+  }
+
+  async getModInfo(filename: string): Promise<CachedModInfo | null> {
+    const workshopId = this.extractWorkshopId(filename);
+    if (!workshopId) return null;
+
+    const modInfos = await this.getModTitlesBatch([filename]);
+    return modInfos[workshopId] || null;
+  }
+
+  async getModInfos(
+    filenames: string[]
+  ): Promise<Record<string, CachedModInfo>> {
+    return this.getModTitlesBatch(filenames);
+  }
+
+  async refreshModTitles(
+    filenames: string[]
+  ): Promise<Record<string, CachedModInfo>> {
     const cache = this.getCache();
 
     for (const filename of filenames) {
@@ -167,7 +199,6 @@ export class SteamWorkshopService {
     }
 
     this.setCache(cache);
-
     return this.getModTitlesBatch(filenames);
   }
 
@@ -234,6 +265,24 @@ export class SteamWorkshopService {
 
   clearCache(): void {
     localStorage.removeItem(CACHE_KEY);
+  }
+
+  async getModDescription(filename: string): Promise<string> {
+    const modInfo = await this.getModInfo(filename);
+    return modInfo?.description || "";
+  }
+
+  async getModInfoById(workshopId: string): Promise<CachedModInfo | null> {
+    const cache = this.getCache();
+
+    if (cache[workshopId] && this.isCacheValid(cache[workshopId])) {
+      return cache[workshopId];
+    }
+
+    const modInfos = await this.getModTitlesBatch([
+      `workshop_${workshopId}.vpk`,
+    ]);
+    return modInfos[workshopId] || null;
   }
 }
 
